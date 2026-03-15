@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Revenue Checker</title>
+<style>
+body{
+font-family:Arial;
+background:#111;
+color:white;
+text-align:center;
+padding:50px;
+}
+input{
+padding:10px;
+margin:10px;
+width:300px;
+}
+button{
+padding:10px 20px;
+background:#00ff88;
+border:none;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Razorpay Revenue Test</h1>
+
+<input id="key" placeholder="Razorpay Key ID"><br>
+<input id="secret" placeholder="Razorpay Secret"><br>
+
+<button onclick="check()">Check Revenue</button>
+
+<h2 id="result"></h2>
+
+<script>
+async function check(){
+
+const key = document.getElementById("key").value
+const secret = document.getElementById("secret").value
+
+const res = await fetch("http://localhost:3000/check-revenue",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({key,secret})
+})
+
+const data = await res.json()
+
+if(data.success){
+document.getElementById("result").innerText =
+"Total Revenue: ₹" + data.revenue
+}else{
+document.getElementById("result").innerText =
+"API key invalid"
+}
+
+}
+</script>
+
+</body>
+</html>
